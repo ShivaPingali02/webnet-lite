@@ -1,6 +1,11 @@
 <?php
 
-$conn = new mysqli("localhost", "webuser", "Webnet123!", "webnet");
+$db_host = getenv("DB_HOST") ?: "localhost";
+$db_user = getenv("DB_USER") ?: "webuser";
+$db_pass = getenv("DB_PASS") ?: "Webnet123!";
+$db_name = getenv("DB_NAME") ?: "webnet";
+
+$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
