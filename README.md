@@ -202,8 +202,14 @@ Solution:
 
 Add screenshots here:
 - Live dashboard
+  <img width="864" height="903" alt="dashboard" src="https://github.com/user-attachments/assets/81cc3d9d-4793-4e47-ac8d-24bd0a06d712" />
+
 - kubectl get pods
+  <img width="565" height="67" alt="pods" src="https://github.com/user-attachments/assets/00592891-fb9c-475f-8f46-f34ed072b0f1" />
+
 - Kubernetes services
+  <img width="632" height="78" alt="services" src="https://github.com/user-attachments/assets/81e85fbd-031f-4ae2-be24-4f337cd75da6" />
+
 
 ---
 
