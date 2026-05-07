@@ -59,7 +59,6 @@ MariaDB Service (db)
       v
 MariaDB Pod
 ```
-
 ---
 
 # Features
