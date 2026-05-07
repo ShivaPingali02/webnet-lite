@@ -200,7 +200,6 @@ Solution:
 
 # Screenshots
 
-Add screenshots here:
 - Live dashboard
   <img width="864" height="903" alt="dashboard" src="https://github.com/user-attachments/assets/81cc3d9d-4793-4e47-ac8d-24bd0a06d712" />
 
