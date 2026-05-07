@@ -1,0 +1,19 @@
+User Browser
+      |
+      v
+GCP VM External IP :8080
+      |
+      v
+kubectl port-forward
+      |
+      v
+Kubernetes NodePort Service
+      |
+      v
+PHP Application Pod
+      |
+      v
+MariaDB Service (db)
+      |
+      v
+MariaDB Pod
