@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: webnet-deployment
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: webnet
+
+  template:
+
+    metadata:
+      labels:
+        app: webnet
+
+    spec:
+      containers:
+
+      - name: webnet-container
+
+        image: webnet-lite:v2
+
+        imagePullPolicy: Never
+
+        ports:
+        - containerPort: 80
+
+        env:
+        - name: DB_HOST
+          value: db
+
+        - name: DB_USER
+          value: webuser
+
+        - name: DB_PASS
+          value: Webnet123!
+
+        - name: DB_NAME
+          value: webnet
