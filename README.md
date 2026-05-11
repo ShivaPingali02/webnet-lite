@@ -299,34 +299,25 @@ Solution:
 
 ### Live Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+<img width="1708" height="874" alt="image" src="https://github.com/user-attachments/assets/6b1a98e6-1ea0-4b7e-9f73-920ed34cc99a" />
+
 
 ### Kubernetes Pods
 
-![Kubernetes Pods](screenshots/pods.png)
+<img width="583" height="104" alt="image" src="https://github.com/user-attachments/assets/e7c35897-910d-4e73-945b-2b54512d3568" />
+
 
 ### Kubernetes Services
 
-![Kubernetes Services](screenshots/services.png)
+<img width="694" height="98" alt="image" src="https://github.com/user-attachments/assets/a11b1ac9-97c3-4e14-98ce-dd8444fef86a" />
+
 
 ### Prometheus Metrics
 
-![Prometheus Metrics](screenshots/prometheus-metrics.png)
+<img width="1898" height="880" alt="image" src="https://github.com/user-attachments/assets/3ecac175-888a-4e62-b5fb-98dc76deb387" />
 
 ---
 
-## Future Improvements
-
-- Grafana dashboard
-- OpenTelemetry tracing
-- Kubernetes Secrets
-- Persistent Volumes
-- Ingress Controller
-- Helm Charts
-- GitHub Actions CI/CD
-- HTTPS/TLS
-
----
 
 ## Author
 
