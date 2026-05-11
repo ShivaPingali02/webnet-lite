@@ -1,20 +1,12 @@
 # WebNet-lite — Generator Telemetry Dashboard
 
-A cloud-native telemetry dashboard project simulating industrial generator monitoring using PHP, MariaDB, Docker, Kubernetes, and Google Cloud Platform (GCP).
+A cloud-native telemetry dashboard project simulating industrial generator monitoring using PHP, MariaDB, Docker, Kubernetes, Prometheus, and Google Cloud Platform (GCP).
 
-This project was built to gain hands-on practical experience with:
-
-- Linux system administration
-- Backend API development
-- Containerization using Docker
-- Kubernetes deployments and networking
-- Cloud infrastructure on GCP
-- DevOps and Site Reliability Engineering (SRE) workflows
-- Real-world troubleshooting and debugging
+This project demonstrates hands-on experience with Linux administration, backend API development, containerization, Kubernetes deployments, cloud networking, automation, troubleshooting, and observability.
 
 ---
 
-# Project Overview
+## Project Overview
 
 WebNet-lite simulates a lightweight industrial telemetry platform where generator devices continuously send telemetry data such as:
 
@@ -22,21 +14,41 @@ WebNet-lite simulates a lightweight industrial telemetry platform where generato
 - Frequency
 - Generator Load (kW)
 
-Telemetry data is ingested through a REST API, stored in MariaDB, and displayed live through a browser dashboard.
+Telemetry data is ingested through a REST API, stored in MariaDB, displayed on a live dashboard, and exposed as Prometheus-compatible metrics for monitoring.
 
 The project evolved through multiple stages:
 
-1. Single Rocky Linux VM deployment
+1. Rocky Linux VM on GCP
 2. Apache + PHP + MariaDB stack
-3. REST API ingestion
+3. REST API telemetry ingestion
 4. Automated telemetry generation using cron
 5. Docker containerization
 6. Kubernetes deployment using Minikube
-7. Public cloud exposure using GCP firewall rules
+7. Public cloud access using GCP firewall rules
+8. Prometheus-based metrics monitoring
 
 ---
 
-# Architecture
+## Architecture
+
+```text
+Telemetry Script (Cron)
+      |
+      v
+REST API (PHP)
+      |
+      v
+MariaDB Database
+      |
+      v
+Live Dashboard
+      |
+      v
+Prometheus Metrics Endpoint
+      |
+      v
+Prometheus Monitoring
+```
 
 ```text
 User Browser
@@ -59,11 +71,12 @@ MariaDB Service (db)
       v
 MariaDB Pod
 ```
+
 ---
 
-# Features
+## Features
 
-- Live telemetry dashboard
+- Live generator telemetry dashboard
 - REST API for telemetry ingestion
 - Automated telemetry generation using cron jobs
 - Randomized telemetry simulation
@@ -72,60 +85,80 @@ MariaDB Pod
 - MariaDB running inside Kubernetes
 - Internal Kubernetes service discovery using DNS
 - Public browser access through GCP firewall rules
-- Dynamic telemetry updates every minute
+- Prometheus-compatible `/metrics.php` endpoint
+- Real-time telemetry observability
+- Kubernetes monitoring integration
 
 ---
 
-# Tech Stack
+## Tech Stack
 
-## Cloud & Infrastructure
+### Cloud & Infrastructure
+
 - Google Cloud Platform (GCP)
 - Rocky Linux 10
-- Kubernetes (Minikube)
+- Kubernetes with Minikube
 
-## Backend
+### Backend
+
 - PHP
 - MariaDB
 - REST API
 
-## DevOps & SRE
+### DevOps & Automation
+
 - Docker
 - Kubernetes
+- Bash scripting
 - Cron automation
 - Linux system administration
-- Kubernetes networking
-- Service discovery
+
+### Observability
+
+- Prometheus
+- Custom metrics endpoint
+- Real-time telemetry monitoring
 
 ---
 
-# Kubernetes Components
+## Kubernetes Components
 
-## Deployments
+### Deployments
+
 - webnet-deployment
 - db
+- prometheus
 
-## Services
+### Services
+
 - webnet-service
 - db
+- prometheus-service
 
-## Networking
+### Networking
+
 - NodePort exposure
 - Internal Kubernetes DNS
 - kubectl port-forward
+- GCP firewall rules
 
 ---
 
-# Project Structure
+## Project Structure
 
 ```text
 webnet-lite/
 ├── api.php
 ├── index.php
+├── metrics.php
 ├── Dockerfile
 ├── docker-compose.yml
 ├── README.md
 ├── architecture.txt
 ├── screenshots/
+├── docs/
+├── monitoring/
+│   └── prometheus.yaml
 ├── scripts/
 │   ├── deploy.sh
 │   └── send_telemetry.sh
@@ -137,7 +170,7 @@ webnet-lite/
 
 ---
 
-# Example API Request
+## Example API Request
 
 ```bash
 curl -X POST http://<NODE-IP>:30080/api.php \
@@ -153,65 +186,149 @@ curl -X POST http://<NODE-IP>:30080/api.php \
 
 ---
 
-# Key Learning Outcomes
+## Prometheus Metrics
+
+The application exposes Prometheus-compatible metrics through:
+
+```text
+/metrics.php
+```
+
+Example metrics:
+
+```text
+webnet_database_connection_status 1
+webnet_total_generators 41
+webnet_latest_record_id 41
+webnet_latest_voltage 223
+webnet_latest_frequency 50.0
+webnet_latest_load_kw 157.00
+```
+
+These metrics allow Prometheus to monitor:
+
+- Database connection health
+- Total telemetry records
+- Latest voltage
+- Latest frequency
+- Latest generator load
+
+---
+
+## Monitoring & Observability
+
+Prometheus is deployed inside Kubernetes and scrapes the application metrics endpoint in real time.
+
+```text
+Prometheus
+      |
+      v
+Scrapes /metrics.php
+      |
+      v
+Monitors telemetry and application health
+```
+
+This provides a lightweight observability setup that can later be extended with Grafana dashboards and alerting.
+
+---
+
+## Key Learning Outcomes
 
 Through this project I gained hands-on experience with:
 
-- Docker image creation and containerization
+- Linux VM setup and package installation
+- Apache, PHP, and MariaDB configuration
+- REST API development
+- Database integration and troubleshooting
+- Bash scripting and cron automation
+- Docker image creation
 - Kubernetes Deployments and Services
-- Pod-to-pod communication
 - Kubernetes internal DNS and service discovery
 - MariaDB deployment inside Kubernetes
-- Linux administration and troubleshooting
-- GCP firewall configuration
-- API debugging and database connectivity troubleshooting
-- Kubernetes rollout restarts and image rebuilding
-- Cron automation and telemetry simulation
-- Public exposure of Kubernetes-hosted applications
+- Public cloud networking using GCP firewall rules
+- Prometheus-compatible metrics implementation
+- Kubernetes monitoring and observability
+- GitHub documentation and project presentation
 
 ---
 
-# Challenges Solved
+## Challenges Solved
 
-## Kubernetes Service Discovery
+### Kubernetes Service Discovery
+
 Initially the application failed to connect to MariaDB because Kubernetes services require DNS-based service discovery instead of hardcoded IP addresses.
 
 Solution:
-- Replaced hardcoded database IP with Kubernetes service name (`db`)
+
+- Replaced hardcoded database IP with Kubernetes service name `db`
 - Rebuilt Docker image
 - Redeployed application using Kubernetes rollout restart
 
-## Public Browser Access
+### Public Browser Access
+
 External access initially failed due to GCP firewall restrictions.
 
 Solution:
+
 - Configured GCP firewall rule for port 8080
 - Used kubectl port-forward for controlled external access
 
-## Dynamic Telemetry Updates
+### Dynamic Telemetry Updates
+
 Cron jobs initially sent telemetry to the old VM-based application instead of the Kubernetes-hosted API.
 
 Solution:
-- Updated telemetry scripts to target Kubernetes NodePort API endpoint
 
+- Updated telemetry script to target Kubernetes NodePort API endpoint
 
----
+### Observability
 
-# Screenshots
+The application originally had no monitoring endpoint.
 
-- Live dashboard
-  <img width="864" height="903" alt="dashboard" src="https://github.com/user-attachments/assets/81cc3d9d-4793-4e47-ac8d-24bd0a06d712" />
+Solution:
 
-- kubectl get pods
-  <img width="565" height="67" alt="pods" src="https://github.com/user-attachments/assets/00592891-fb9c-475f-8f46-f34ed072b0f1" />
-
-- Kubernetes services
-  <img width="632" height="78" alt="services" src="https://github.com/user-attachments/assets/81e85fbd-031f-4ae2-be24-4f337cd75da6" />
-
+- Added `/metrics.php`
+- Exposed Prometheus-compatible application metrics
+- Deployed Prometheus inside Kubernetes
+- Verified live telemetry metrics through Prometheus UI
 
 ---
 
-# Author
+## Screenshots
+
+### Live Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+### Kubernetes Pods
+
+![Kubernetes Pods](screenshots/pods.png)
+
+### Kubernetes Services
+
+![Kubernetes Services](screenshots/services.png)
+
+### Prometheus Metrics
+
+![Prometheus Metrics](screenshots/prometheus-metrics.png)
+
+---
+
+## Future Improvements
+
+- Grafana dashboard
+- OpenTelemetry tracing
+- Kubernetes Secrets
+- Persistent Volumes
+- Ingress Controller
+- Helm Charts
+- GitHub Actions CI/CD
+- HTTPS/TLS
+
+---
+
+## Author
 
 Shiva Shankar Reddy  
 
